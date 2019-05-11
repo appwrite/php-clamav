@@ -22,13 +22,15 @@ use Appwrite\ClamAV\Network;
 
 $clam = new Network('localhost', 3310); // Or use new Pipe() for unix socket
 
-$clam->ping();
+$clam->ping(); // Check ClamAV is up and running
 
-$clam->version();
+$clam->version(); // Check ClamAV version
 
-$clam->fileScan('path/to/file.dmg');
+$clam->fileScan('path/to/file.dmg'); // Return true of false for file scan
 
-$clam->shutdown();
+$clam->reload(); // Reload ClamAV database
+
+$clam->shutdown(); // Shutdown ClamAV
 ```
 
 ## System Requirements
