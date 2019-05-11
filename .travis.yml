@@ -16,6 +16,12 @@ before_install:
 - sudo wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd
 - sudo wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd
 - sudo chown clamav:clamav /var/lib/clamav/*.cvd
+- sudo mkdir /var/run/clamav
+- sudo chown clamav:clamav /var/run/clamav
+- sudo chmod 750 /var/run/clamav
+- sudo sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf
+- sudo echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
+- sudo sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
 - sudo clamd
 
 before_script: composer install
