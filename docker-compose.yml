@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  clamav:
+    image: appwrite/clamav:v1.0.1
+    restart: unless-stopped
+    ports:
+    - "3310:3310"
+    volumes:
+    - ./tests/data:/home:rw
