@@ -11,7 +11,11 @@ notifications:
 
 before_install:
 - sudo apt-get update
-- sudo apt-get install -y clamav clamav-daemon
+- sudo apt-get install -y clamav clamav-daemon wget
+- wget -O /var/lib/clamav/main.cvd http://database.clamav.net/main.cvd
+- wget -O /var/lib/clamav/daily.cvd http://database.clamav.net/daily.cvd
+- wget -O /var/lib/clamav/bytecode.cvd http://database.clamav.net/bytecode.cvd
+- chown clamav:clamav /var/lib/clamav/*.cvd
 - sudo clamd
 
 before_script: composer install
