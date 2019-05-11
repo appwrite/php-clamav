@@ -32,7 +32,7 @@ class ClamAVTest extends TestCase
     public function setUp()
     {
         $this->network = new Network('localhost', 3310);
-        $this->pipe = new Pipe('clam');
+        $this->pipe = new Pipe();
     }
 
     public function tearDown()
@@ -43,9 +43,7 @@ class ClamAVTest extends TestCase
 
     public function testVersion()
     {
-        var_dump($this->network->version());
         $this->assertStringStartsWith('ClamAV ', $this->network->version());
-        //$this->assertStringStartsWith('ClamAV ', $this->pipe->version());
     }
 
     public function testPing()
@@ -55,7 +53,7 @@ class ClamAVTest extends TestCase
 
     public function testFileScan()
     {
-        $this->assertEquals(false, $this->network->fileScan('/home/NoVirus.txt'));
-        //$this->assertEquals(true, $this->network->fileScan('/home/Virus.txt'));
+        $this->assertEquals(true, $this->network->fileScan('/home/NoVirus.txt'));
+        $this->assertEquals(false, $this->network->fileScan('/home/Virus.txt'));
     }
 }
