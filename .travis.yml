@@ -20,7 +20,6 @@ before_install:
 - sudo chmod 750 /var/run/clamav
 - sudo sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf
 - sudo echo "TCPSocket 3310" >> /etc/clamav/clamd.conf
-- sudo sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
 - sudo clamd
 
 before_script: composer install
