@@ -1,6 +1,6 @@
 # Appwrite ClamAV PHP Client
 
-[![Build Status](https://travis-ci.org/appwrite/php-clamav.svg?branch=master)](https://travis-ci.org/utopia-php/ab)
+[![Build Status](https://travis-ci.org/appwrite/php-clamav.svg?branch=master)](https://travis-ci.org/appwrite/php-clamav)
 ![Total Downloads](https://img.shields.io/packagist/dt/appwrite/php-clamav.svg)
 [![Chat With Us](https://img.shields.io/gitter/room/appwrite/community.svg)](https://gitter.im/utopia-php/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
 
