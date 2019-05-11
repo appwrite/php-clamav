@@ -31,7 +31,7 @@ class ClamAVTest extends TestCase
 
     public function setUp()
     {
-        $this->network = new Network('127.0.0.1', 3310);
+        $this->network = new Network('localhost', 3310);
         $this->pipe = new Pipe('clam');
     }
 
