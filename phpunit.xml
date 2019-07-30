@@ -1,6 +1,5 @@
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -10,7 +9,12 @@
         >
     <testsuites>
         <testsuite name="Application Test Suite">
-            <directory>./tests/</directory>
+            <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">>./src</directory>
+        </whitelist>
+    </filter>
 </phpunit>
