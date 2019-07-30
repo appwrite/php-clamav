@@ -29,13 +29,13 @@ class ClamAVTest extends TestCase
      */
     protected $pipe = null;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->network = new Network('localhost', 3310);
         $this->pipe = new Pipe();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         $this->network = null;
         $this->pipe= null;
@@ -48,12 +48,12 @@ class ClamAVTest extends TestCase
 
     public function testPing()
     {
-        $this->assertEquals(true, $this->network->ping());
+        $this->assertTrue($this->network->ping());
     }
 
     public function testFileScan()
     {
-        $this->assertEquals(true, $this->network->fileScan('/home/NoVirus.txt'));
-        $this->assertEquals(false, $this->network->fileScan('/home/Virus.txt'));
+        $this->assertTrue($this->network->fileScan('/home/NoVirus.txt'));
+        $this->assertFalse($this->network->fileScan('/home/Virus.txt'));
     }
 }

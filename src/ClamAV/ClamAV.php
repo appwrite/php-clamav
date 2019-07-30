@@ -41,7 +41,7 @@ abstract class ClamAV
     public function ping()
     {
         $return = $this->sendCommand('PING');
-        return strcmp($return, 'PONG') ? true : false;
+        return trim($return) === 'PONG';
     }
 
     /**
@@ -101,11 +101,11 @@ abstract class ClamAV
      */
     public function continueScan(string $file)
     {
-        $return = array();
+        $return = [];
 
         foreach(explode("\n", trim($this->sendCommand('CONTSCAN ' .  $file))) as $results ) {
             list($file, $stats) = explode(':', $results);
-            array_push($return, array( 'file' => $file, 'stats' => trim($stats) ));
+            array_push($return, [ 'file' => $file, 'stats' => trim($stats) ]);
         }
 
         return $return;

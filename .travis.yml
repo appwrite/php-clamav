@@ -14,8 +14,9 @@ services:
 
 before_install:
 - docker-compose up -d
+- sleep 60
 
 before_script: composer install
 
 script:
-- vendor/bin/phpunit --configuration phpunit.xml
+- vendor/bin/phpunit

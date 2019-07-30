@@ -13,11 +13,14 @@
     "autoload": {
         "psr-4": {"Appwrite\\ClamAV\\": "src/ClamAV"}
     },
+    "autoload-dev": {
+        "psr-4": {"Utopia\\Tests\\": "tests/ClamAV"}
+    },
     "require": {
         "php": ">=7.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
