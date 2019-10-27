@@ -56,4 +56,9 @@ class ClamAVTest extends TestCase
         $this->assertTrue($this->network->fileScan('/home/NoVirus.txt'));
         $this->assertFalse($this->network->fileScan('/home/Virus.txt'));
     }
+
+    public function testReload()
+    {
+        $this->assertStringStartsWith('RELOADING', $this->network->reload());
+    }
 }
