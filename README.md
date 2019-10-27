@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/appwrite/php-clamav.svg?branch=master)](https://travis-ci.org/appwrite/php-clamav)
 ![Total Downloads](https://img.shields.io/packagist/dt/appwrite/php-clamav.svg)
-[![Chat With Us](https://img.shields.io/gitter/room/appwrite/community.svg)](https://gitter.im/utopia-php/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link)
+[![Discord](https://img.shields.io/discord/564160730845151244)](https://discord.gg/GSeTUeA)
 
 PHP Client to connect to ClamAV daemon over TCP or using a local socket from command line and scan your storage files for viruses.
 
