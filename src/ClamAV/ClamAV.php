@@ -85,7 +85,8 @@ abstract class ClamAV
     {
         $out = $this->sendCommand('SCAN ' .  $file);
 
-        list($file, $stats) = explode(':', $out);
+        $out = explode(':', $out);
+        $stats = end($out);
 
         $result = trim($stats);
 
