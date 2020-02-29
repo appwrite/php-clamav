@@ -37,8 +37,8 @@ class Network extends ClamAV
      */
     protected function getSocket()
     {
-        $socket = socket_create(AF_INET, SOCK_STREAM, 0);
-        $status = socket_connect($socket, $this->host, $this->port);
+        $socket = @socket_create(AF_INET, SOCK_STREAM, 0);
+        $status = @socket_connect($socket, $this->host, $this->port);
 
         if(!$status) {
             throw new \Exception('Unable to connect to ClamAV server');
