@@ -24,9 +24,9 @@ abstract class ClamAV
 
         $socket = $this->getSocket();
 
-        socket_send($socket, $command, strlen($command), 0);
-        socket_recv($socket, $return, self::CLAMAV_MAX, 0);
-        socket_close($socket);
+        \socket_send($socket, $command, \strlen($command), 0);
+        \socket_recv($socket, $return, self::CLAMAV_MAX, 0);
+        \socket_close($socket);
 
         return $return;
     }
@@ -41,7 +41,7 @@ abstract class ClamAV
     public function ping()
     {
         $return = $this->sendCommand('PING');
-        return trim($return) === 'PONG';
+        return \trim($return) === 'PONG';
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class ClamAV
      */
     public function version()
     {
-        return trim($this->sendCommand('VERSION'));
+        return \trim($this->sendCommand('VERSION'));
     }
 
     /**
@@ -85,10 +85,10 @@ abstract class ClamAV
     {
         $out = $this->sendCommand('SCAN ' .  $file);
 
-        $out = explode(':', $out);
-        $stats = end($out);
+        $out = \explode(':', $out);
+        $stats = \end($out);
 
-        $result = trim($stats);
+        $result = \trim($stats);
 
         return ($result === 'OK');
     }
@@ -104,9 +104,9 @@ abstract class ClamAV
     {
         $return = [];
 
-        foreach(explode("\n", trim($this->sendCommand('CONTSCAN ' .  $file))) as $results ) {
-            list($file, $stats) = explode(':', $results);
-            array_push($return, [ 'file' => $file, 'stats' => trim($stats) ]);
+        foreach(\explode("\n", \trim($this->sendCommand('CONTSCAN ' .  $file))) as $results ) {
+            list($file, $stats) = \explode(':', $results);
+            \array_push($return, [ 'file' => $file, 'stats' => \trim($stats) ]);
         }
 
         return $return;

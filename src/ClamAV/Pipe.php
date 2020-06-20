@@ -29,8 +29,8 @@ class Pipe extends ClamAV
      */
     protected function getSocket()
     {
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        socket_connect($socket, $this->pip);
+        $socket = \socket_create(AF_UNIX, SOCK_STREAM, 0);
+        \socket_connect($socket, $this->pip);
         return $socket;
     }
 }
