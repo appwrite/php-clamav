@@ -2,7 +2,7 @@ version: '3'
 
 services:
   clamav:
-    image: appwrite/clamav:1.0.7
+    image: appwrite/clamav:1.0.12
     restart: unless-stopped
     ports:
     - "3310:3310"
