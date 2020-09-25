@@ -2,9 +2,12 @@
 
 namespace Appwrite\ClamAV;
 
+use function socket_connect;
+use function socket_create;
+
 class Pipe extends ClamAV
 {
-    const CLAMAV_HOST = '/var/run/clamav/clamd.ctl';
+    private const CLAMAV_HOST = '/var/run/clamav/clamd.ctl';
 
     /**
      * @var string
@@ -29,8 +32,8 @@ class Pipe extends ClamAV
      */
     protected function getSocket()
     {
-        $socket = \socket_create(AF_UNIX, SOCK_STREAM, 0);
-        \socket_connect($socket, $this->pip);
+        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        socket_connect($socket, $this->pip);
         return $socket;
     }
 }
