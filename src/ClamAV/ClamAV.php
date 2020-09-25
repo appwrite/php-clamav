@@ -2,12 +2,20 @@
 
 namespace Appwrite\ClamAV;
 
+use function end;
+use function explode;
+use function socket_close;
+use function socket_recv;
+use function socket_send;
+use function strlen;
+use function trim;
+
 abstract class ClamAV
 {
     /**
      * @var int
      */
-    const CLAMAV_MAX = 20000;
+    public const CLAMAV_MAX = 20000;
 
     /**
      * @return resource
@@ -24,9 +32,9 @@ abstract class ClamAV
 
         $socket = $this->getSocket();
 
-        \socket_send($socket, $command, \strlen($command), 0);
-        \socket_recv($socket, $return, self::CLAMAV_MAX, 0);
-        \socket_close($socket);
+        socket_send($socket, $command, strlen($command), 0);
+        socket_recv($socket, $return, self::CLAMAV_MAX, 0);
+        socket_close($socket);
 
         return $return;
     }
@@ -38,10 +46,10 @@ abstract class ClamAV
      *
      * @return bool
      */
-    public function ping()
+    public function ping(): bool
     {
         $return = $this->sendCommand('PING');
-        return \trim($return) === 'PONG';
+        return trim($return) === 'PONG';
     }
 
     /**
@@ -49,9 +57,9 @@ abstract class ClamAV
      *
      * @return string
      */
-    public function version()
+    public function version(): string
     {
-        return \trim($this->sendCommand('VERSION'));
+        return trim($this->sendCommand('VERSION'));
     }
 
     /**
@@ -81,14 +89,14 @@ abstract class ClamAV
      * @param string $file
      * @return bool return true if file is OK or false if not
      */
-    public function fileScan(string $file)
+    public function fileScan(string $file): bool
     {
-        $out = $this->sendCommand('SCAN ' .  $file);
+        $out = $this->sendCommand('SCAN ' . $file);
 
-        $out = \explode(':', $out);
-        $stats = \end($out);
+        $out = explode(':', $out);
+        $stats = end($out);
 
-        $result = \trim($stats);
+        $result = trim($stats);
 
         return ($result === 'OK');
     }
@@ -100,13 +108,13 @@ abstract class ClamAV
      * @param string $file
      * @return array
      */
-    public function continueScan(string $file)
+    public function continueScan(string $file): array
     {
         $return = [];
 
-        foreach(\explode("\n", \trim($this->sendCommand('CONTSCAN ' .  $file))) as $results ) {
-            list($file, $stats) = \explode(':', $results);
-            \array_push($return, [ 'file' => $file, 'stats' => \trim($stats) ]);
+        foreach (explode("\n", trim($this->sendCommand('CONTSCAN ' . $file))) as $results) {
+            [$file, $stats] = explode(':', $results);
+            $return[] = ['file' => $file, 'stats' => trim($stats)];
         }
 
         return $return;

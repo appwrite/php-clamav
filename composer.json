@@ -1,26 +1,36 @@
 {
-    "name": "appwrite/php-clamav",
-    "description": "ClamAV network and pipe client for PHP",
-    "type": "library",
-    "keywords": ["php", "clamav", "anti virus", "appwrite"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Eldad Fux",
-            "email": "eldad@appwrite.io"
-        }
-    ],
-    "autoload": {
-        "psr-4": {"Appwrite\\ClamAV\\": "src/ClamAV"}
-    },
-    "autoload-dev": {
-        "psr-4": {"Utopia\\Tests\\": "tests/ClamAV"}
-    },
-    "require": {
-        "php": ">=7.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^7.0"
-    },
-    "minimum-stability": "stable"
+  "name": "appwrite/php-clamav",
+  "description": "ClamAV network and pipe client for PHP",
+  "type": "library",
+  "keywords": [
+    "php",
+    "clamav",
+    "anti virus",
+    "appwrite"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Eldad Fux",
+      "email": "eldad@appwrite.io"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Appwrite\\ClamAV\\": "src/ClamAV"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Appwrite\\ClamAV\\Tests\\": "tests/ClamAV"
+    }
+  },
+  "require": {
+    "php": ">=7.1",
+    "ext-sockets": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.0"
+  },
+  "minimum-stability": "stable"
 }
