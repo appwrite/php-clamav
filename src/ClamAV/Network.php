@@ -40,7 +40,7 @@ class Network extends ClamAV
         $socket = @\socket_create(AF_INET, SOCK_STREAM, 0);
         $status = @\socket_connect($socket, $this->host, $this->port);
 
-        if(!$status) {
+        if (!$status) {
             throw new \Exception('Unable to connect to ClamAV server');
         }
         return $socket;

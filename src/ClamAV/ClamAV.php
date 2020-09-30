@@ -104,7 +104,7 @@ abstract class ClamAV
     {
         $return = [];
 
-        foreach(\explode("\n", \trim($this->sendCommand('CONTSCAN ' .  $file))) as $results ) {
+        foreach (\explode("\n", \trim($this->sendCommand('CONTSCAN ' .  $file))) as $results) {
             list($file, $stats) = \explode(':', $results);
             \array_push($return, [ 'file' => $file, 'stats' => \trim($stats) ]);
         }
