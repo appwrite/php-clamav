@@ -1,4 +1,4 @@
-# Appwrite ClamAV PHP Client
+# Appwrite ClamAV Network and Pipe Client for PHP
 
 [![Build Status](https://travis-ci.org/appwrite/php-clamav.svg?branch=master)](https://travis-ci.org/appwrite/php-clamav)
 ![Total Downloads](https://img.shields.io/packagist/dt/appwrite/php-clamav.svg)
