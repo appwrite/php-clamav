@@ -11,7 +11,7 @@
  * @license The MIT License (MIT) <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Utopia\Tests;
+namespace Appwrite\ClamAV\Tests;
 
 use Appwrite\ClamAV\Network;
 use Appwrite\ClamAV\Pipe;
@@ -22,12 +22,12 @@ class ClamAVTest extends TestCase
     /**
      * @var Network
      */
-    protected $network = null;
+    protected $network;
 
     /**
      * @var Pipe
      */
-    protected $pipe = null;
+    protected $pipe;
 
     protected function setUp(): void
     {
@@ -38,27 +38,27 @@ class ClamAVTest extends TestCase
     protected function tearDown(): void
     {
         $this->network = null;
-        $this->pipe= null;
+        $this->pipe = null;
     }
 
-    public function testVersion()
+    public function testVersion(): void
     {
-        $this->assertStringStartsWith('ClamAV ', $this->network->version());
+        self::assertStringStartsWith('ClamAV ', $this->network->version());
     }
 
-    public function testPing()
+    public function testPing(): void
     {
-        $this->assertTrue($this->network->ping());
+        self::assertTrue($this->network->ping());
     }
 
-    public function testFileScan()
+    public function testFileScan(): void
     {
-        $this->assertTrue($this->network->fileScan('/home/NoVirus.txt'));
-        $this->assertFalse($this->network->fileScan('/home/Virus.txt'));
+        self::assertTrue($this->network->fileScan('/home/NoVirus.txt'));
+        self::assertFalse($this->network->fileScan('/home/Virus.txt'));
     }
 
-    public function testReload()
+    public function testReload(): void
     {
-        $this->assertStringStartsWith('RELOADING', $this->network->reload());
+        self::assertStringStartsWith('RELOADING', $this->network->reload());
     }
 }
