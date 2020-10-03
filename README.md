@@ -52,4 +52,4 @@ This package requires PHP 7.1 or later. We recommend using the latest PHP versio
 
 ## Copyright and license
 
-The MIT License (MIT) [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
+The MIT License [MIT](http://www.opensource.org/licenses/mit-license.php)
