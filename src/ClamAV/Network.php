@@ -2,10 +2,14 @@
 
 namespace Appwrite\ClamAV;
 
+use RuntimeException;
+use function socket_connect;
+use function socket_create;
+
 class Network extends ClamAV
 {
-    const CLAMAV_HOST = '127.0.0.1';
-    const CLAMAV_PORT = 3310;
+    private const CLAMAV_HOST = '127.0.0.1';
+    private const CLAMAV_PORT = 3310;
 
     /**
      * @var string
@@ -33,15 +37,15 @@ class Network extends ClamAV
 
     /**
      * @return resource
-     * @throws \Exception
+     * @throws RuntimeException
      */
     protected function getSocket()
     {
-        $socket = @\socket_create(AF_INET, SOCK_STREAM, 0);
-        $status = @\socket_connect($socket, $this->host, $this->port);
+        $socket = @socket_create(AF_INET, SOCK_STREAM, 0);
+        $status = @socket_connect($socket, $this->host, $this->port);
 
-        if(!$status) {
-            throw new \Exception('Unable to connect to ClamAV server');
+        if (!$status) {
+            throw new RuntimeException('Unable to connect to ClamAV server');
         }
         return $socket;
     }
