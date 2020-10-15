@@ -8,7 +8,7 @@ PHP Client to connect to ClamAV daemon over TCP or using a local socket from com
 
 ## Getting Started
 
-Install using composer:
+Install using composer :
 ```bash
 composer require appwrite/php-clamav
 ```
