@@ -3,5 +3,6 @@ description: "Platform was Windows 10. Followed installation procedure through c
 body:
 - type: markdown
   value: "## Welcome!"
-- type: markdown
-  attributes: "Thanks for taking the time to fill out this error! If you need real-time help, join us on Discord."
+- type: non-markdown
+  attributes: 
+  value: "Thanks for taking the time to fill out this error! If you need real-time help, join us on Discord."
