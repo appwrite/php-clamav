@@ -1,5 +1,5 @@
-name: 
-description:
-labels:
-title:
-body:
+name: "Unable to connect to ClamAV server"
+description: 
+"Platform: Windows 10"
+"Followed installation procedure through composer and created a file to execute"
+"Error Message: Fatal error: Uncaught RuntimeException: Unable to connect to ClamAV server in C:\xampp\htdocs\test\scan\appwrite\vendor\appwrite\php-clamav\src\ClamAV\Network.php:48 Stack trace: #0 C:\xampp\htdocs\test\scan\appwrite\vendor\appwrite\php-clamav\src\ClamAV\ClamAV.php(33): Appwrite\ClamAV\Network->getSocket() #1 C:\xampp\htdocs\test\scan\appwrite\vendor\appwrite\php-clamav\src\ClamAV\ClamAV.php(51): Appwrite\ClamAV\ClamAV->sendCommand('PING') #2 C:\xampp\htdocs\test\scan\appwrite\index.php(9): Appwrite\ClamAV\ClamAV->ping() #3 {main} thrown in C:\xampp\htdocs\test\scan\appwrite\vendor\appwrite\php-clamav\src\ClamAV\Network.php on line 48"
