@@ -3,7 +3,7 @@ description:
 "Platform: Windows 10"
 "Followed installation procedure through composer and created a file to execute"
 "Error Message: Fatal error: Uncaught RuntimeException: Unable to connect to ClamAV server in 
-"....\Network.php:48 Stack trace: 
-"#0 ....\ClamAV.php(33): ....\Network->getSocket() 
-"#1 ....\ClamAV.php(51): ....\ClamAV->sendCommand('PING') 
-"#2 ....\index.php(9): ....\ClamAV->ping() #3 {main} thrown in ....\Network.php on line 48"
+"....\\Network.php:48 Stack trace: 
+"#0 ....\\ClamAV.php(33): ....\\Network->getSocket() 
+"#1 ....\\ClamAV.php(51): ....\\ClamAV->sendCommand('PING') 
+"#2 ....\\index.php(9): ....\\ClamAV->ping() #3 {main} thrown in ....\\Network.php on line 48"
