@@ -1,6 +1,6 @@
 name: "Unable to connect to ClamAV server"
 description: 
-"Platform: Windows 10"
+"Platform was Windows 10"
 "Followed installation procedure through composer and created a file to execute"
 "Error Message: Fatal error: Uncaught RuntimeException: Unable to connect to ClamAV server in 
 "....\\Network.php:48 Stack trace: 
