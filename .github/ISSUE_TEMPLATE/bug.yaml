@@ -34,7 +34,7 @@ body:
   - type: dropdown
     id: php-clamav-version
     attributes:
-      label: "🎲 Appwrite ClamAV PHP Client version"
+      label: "🎲 PHP ClamAV version"
       description: "What version of Appwrite ClamAV PHP Client are you running?"
       options:
         - Version 1.1.x
