@@ -26,11 +26,11 @@
     }
   },
   "require": {
-    "php": ">=7.1",
+    "php": ">=8.0",
     "ext-sockets": "*"
   },
   "require-dev": {
-    "phpunit/phpunit": "^7.0"
+    "phpunit/phpunit": "^9"
   },
   "minimum-stability": "stable"
 }
