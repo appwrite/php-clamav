@@ -1,18 +1,31 @@
 <?php
 
+/**
+ * Utopia PHP Framework
+ *
+ * @package ClamAV
+ *
+ * @link https://github.com/utopia-php/framework
+ * @license The MIT License (MIT) <http://www.opensource.org/licenses/mit-license.php>
+ */
+
 namespace Appwrite\ClamAV;
 
-use function socket_connect;
-use function socket_create;
+use Socket;
+use const AF_UNIX;
+use const SOCK_STREAM;
 
 class Pipe extends ClamAV
 {
-    private const CLAMAV_HOST = '/var/run/clamav/clamd.ctl';
+    /**
+     * @var string
+     */
+    private const CLAMAV_HOST = '/run/clamav/clamd.sock';
 
     /**
      * @var string
      */
-    private $pip;
+    private string $pip;
 
     /**
      * Pipe constructor.
@@ -28,12 +41,15 @@ class Pipe extends ClamAV
     }
 
     /**
-     * @return resource
+     * Returns a local socket.
+     *
+     * @return Socket
      */
-    protected function getSocket()
+    protected function getSocket(): Socket
     {
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        socket_connect($socket, $this->pip);
+        $socket = \socket_create(AF_UNIX, SOCK_STREAM, 0);
+        \socket_connect($socket, $this->pip);
+
         return $socket;
     }
 }

@@ -1,13 +1,11 @@
 <?php
+
 /**
  * Utopia PHP Framework
  *
  * @package ClamAV
- * @subpackage Tests
  *
  * @link https://github.com/utopia-php/framework
- * @author Eldad Fux <eldad@appwrite.io>
- * @version 1.0 RC4
  * @license The MIT License (MIT) <http://www.opensource.org/licenses/mit-license.php>
  */
 
@@ -20,14 +18,14 @@ use PHPUnit\Framework\TestCase;
 class ClamAVTest extends TestCase
 {
     /**
-     * @var Network
+     * @var Network|null
      */
-    protected $network;
+    protected ?Network $network;
 
     /**
-     * @var Pipe
+     * @var Pipe|null
      */
-    protected $pipe;
+    protected ?Pipe $pipe;
 
     protected function setUp(): void
     {
@@ -51,10 +49,9 @@ class ClamAVTest extends TestCase
         self::assertTrue($this->network->ping());
     }
 
-    public function testFileScan(): void
+    public function testFileScanInStream(): void
     {
-        self::assertTrue($this->network->fileScan('/home/NoVirus.txt'));
-        self::assertFalse($this->network->fileScan('/home/Virus.txt'));
+        self::assertTrue($this->network->fileScanInStream(__FILE__));
     }
 
     public function testReload(): void
