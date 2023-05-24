@@ -104,7 +104,10 @@ abstract class ClamAV
         \socket_send($socket, $command, \strlen($command), 0);
 
         while (!\feof($handle)) {
-            $data = \fread($handle, $chunkSize);
+            if ("" === ($data = \fread($handle, $chunkSize))) {
+                continue;
+            }
+
             $packet = \pack(\sprintf("Na%d", $chunkSize), $chunkSize, $data);
             \socket_send($socket, $packet, $chunkSize + 4, 0);
         }
