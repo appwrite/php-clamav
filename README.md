@@ -27,7 +27,7 @@ $clam->ping(); // Check ClamAV is up and running
 
 $clam->version(); // Check ClamAV version
 
-$clam->fileScan('path/to/file.dmg'); // Return true of false for file scan
+$clam->fileScan('path/to/file.dmg'); // Returns true if a file is clean or false if a file is infected
 
 $clam->reload(); // Reload ClamAV database
 
