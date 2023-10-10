@@ -12,6 +12,7 @@
 namespace Appwrite\ClamAV;
 
 use Socket;
+
 use const AF_UNIX;
 use const SOCK_STREAM;
 
@@ -20,11 +21,8 @@ class Pipe extends ClamAV
     /**
      * @var string
      */
-    private const CLAMAV_HOST = '/run/clamav/clamd.sock';
+    public const CLAMAV_SOCK = '/run/clamav/clamd.sock';
 
-    /**
-     * @var string
-     */
     private string $pip;
 
     /**
@@ -32,18 +30,14 @@ class Pipe extends ClamAV
      *
      * This class can be used to connect to local socket.
      * You need to pass the path to the socket pipe.
-     *
-     * @param string $pip
      */
-    public function __construct(string $pip = self::CLAMAV_HOST)
+    public function __construct(string $pip = self::CLAMAV_SOCK)
     {
         $this->pip = $pip;
     }
 
     /**
      * Returns a local socket.
-     *
-     * @return Socket
      */
     protected function getSocket(): Socket
     {

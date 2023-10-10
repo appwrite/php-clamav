@@ -14,14 +14,15 @@ Install using composer:
 composer require appwrite/php-clamav
 ```
 
+Example usage:
 ```php
 <?php
 
 require_once 'vendor/autoload.php';
 
-use Appwrite\ClamAV\Network;
+use Appwrite\ClamAV\ClamAV;
 
-$clam = new Network('localhost', 3310); // Or use new Pipe() for unix socket
+$clam = ClamAV::createFromDSN('tcp://localhost:3310');
 
 $clam->ping(); // Check ClamAV is up and running
 
@@ -36,7 +37,7 @@ $clam->shutdown(); // Shutdown ClamAV
 
 ## System Requirements
 
-This package requires PHP 7.1 or later. We recommend using the latest PHP version whenever possible.
+This package requires PHP 8.1 or later. We recommend using the latest PHP version whenever possible.
 
 ## Find Us
 
