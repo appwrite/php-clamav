@@ -13,6 +13,7 @@ namespace Appwrite\ClamAV;
 
 use RuntimeException;
 use Socket;
+
 use const AF_INET;
 use const SOCK_STREAM;
 
@@ -21,30 +22,21 @@ class Network extends ClamAV
     /**
      * @var string
      */
-    private const CLAMAV_HOST = '127.0.0.1';
+    public const CLAMAV_HOST = '127.0.0.1';
 
     /**
      * @var int
      */
-    private const CLAMAV_PORT = 3310;
+    public const CLAMAV_PORT = 3310;
 
-    /**
-     * @var string
-     */
     private string $host;
 
-    /**
-     * @var int
-     */
     private int $port;
 
     /**
      * Network constructor
      *
      * You need to pass the host address and the port the server.
-     *
-     * @param string $host
-     * @param int $port
      */
     public function __construct(string $host = self::CLAMAV_HOST, int $port = self::CLAMAV_PORT)
     {
@@ -53,9 +45,7 @@ class Network extends ClamAV
     }
 
     /**
-     * Returns a remote socket.
-     *
-     * @return Socket
+     * @inheritDoc
      */
     protected function getSocket(): Socket
     {

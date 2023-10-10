@@ -11,6 +11,9 @@
 
 namespace Appwrite\ClamAV;
 
+use InvalidArgumentException;
+use Socket;
+
 abstract class ClamAV
 {
     /**
@@ -19,15 +22,30 @@ abstract class ClamAV
     public const CLAMAV_MAX = 20000;
 
     /**
-     * @return resource
+     * Create a new connection based on the DSN string.
      */
-    abstract protected function getSocket();
+    public static function createFromDSN(string $dsn): Pipe|Network
+    {
+        if (\str_starts_with($dsn, 'unix://')) {
+            return new Pipe(\substr($dsn, 7));
+        }
+
+        if (\str_starts_with($dsn, 'tcp://')) {
+            [$host, $port] = \explode(':', \substr($dsn, 6));
+
+            return new Network($host, (int)$port);
+        }
+
+        throw new InvalidArgumentException("Unsupported scheme in DSN");
+    }
+
+    /**
+     * Returns a remote socket.
+     */
+    abstract protected function getSocket(): Socket;
 
     /**
      * Send a given command to ClamAV.
-     *
-     * @param string $command
-     * @return string|null
      */
     private function sendCommand(string $command): ?string
     {
@@ -44,8 +62,6 @@ abstract class ClamAV
 
     /**
      * Check if ClamAV is up and responsive.
-     *
-     * @return bool
      */
     public function ping(): bool
     {
@@ -56,8 +72,6 @@ abstract class ClamAV
 
     /**
      * Check ClamAV Version.
-     *
-     * @return string
      */
     public function version(): string
     {
@@ -66,8 +80,6 @@ abstract class ClamAV
 
     /**
      * Reload ClamAV virus databases.
-     *
-     * @return string|null
      */
     public function reload(): ?string
     {
@@ -76,8 +88,6 @@ abstract class ClamAV
 
     /**
      * Shutdown ClamAV and preform a clean exit.
-     *
-     * @return string|null
      */
     public function shutdown(): ?string
     {
@@ -89,9 +99,6 @@ abstract class ClamAV
      * enabled (if not disabled in clamd.conf). A full path is required.
      *
      * Returns whether the given file/directory is clean (true), or not (false).
-     *
-     * @param string $file
-     * @return bool
      */
     public function fileScanInStream(string $file): bool
     {
@@ -105,6 +112,11 @@ abstract class ClamAV
 
         while (!\feof($handle)) {
             $data = \fread($handle, $chunkSize);
+
+            if ($data === "") {
+                continue;
+            }
+
             $packet = \pack(\sprintf("Na%d", $chunkSize), $chunkSize, $data);
             \socket_send($socket, $packet, $chunkSize + 4, 0);
         }
@@ -124,9 +136,6 @@ abstract class ClamAV
      * enabled (if not disabled in clamd.conf). A full path is required.
      *
      * Returns whether the given file/directory is clean (true), or not (false).
-     *
-     * @param string $file
-     * @return bool
      */
     public function fileScan(string $file): bool
     {
@@ -141,9 +150,6 @@ abstract class ClamAV
     /**
      * Scan file or directory (recursively) with archive support
      * enabled, and don't stop the scanning when a virus is found.
-     *
-     * @param string $file
-     * @return array
      */
     public function continueScan(string $file): array
     {
