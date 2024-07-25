@@ -95,28 +95,24 @@ abstract class ClamAV
      */
     public function fileScanInStream(string $file): bool
     {
-        $socket = $this->getSocket();
+        $file_handler = fopen($file, 'r');
+        $scanner_handler = socket_export_stream($this->getSocket());
 
-        $handle = \fopen($file, 'rb');
-        $chunkSize = \filesize($file) < 8192 ? \filesize($file) : 8192;
-        $command = "zINSTREAM\0";
+        // Push to the ClamAV socket.
+        $bytes = filesize($file);
+        fwrite($scanner_handler, "zINSTREAM\0");
+        fwrite($scanner_handler, pack("N", $bytes));
+        stream_copy_to_stream($file_handler, $scanner_handler);
 
-        \socket_send($socket, $command, \strlen($command), 0);
+        // Send a zero-length block to indicate that we're done sending file data.
+        fwrite($scanner_handler, pack("N", 0));
 
-        while (!\feof($handle)) {
-            $data = \fread($handle, $chunkSize);
-            $packet = \pack(\sprintf("Na%d", $chunkSize), $chunkSize, $data);
-            \socket_send($socket, $packet, $chunkSize + 4, 0);
-        }
+        // Request a response from the service.
+        $response = trim(fgets($scanner_handler));
 
-        \socket_send($socket, \pack("Nx", 0), 5, 0);
-        \socket_recv($socket, $out, 20000, 0);
-        \socket_close($socket);
+        fclose($scanner_handler);
 
-        $out = \explode(':', $out);
-        $stats = \end($out);
-
-        return \trim($stats) === 'OK';
+        return preg_match('/^stream: OK$/', $response);
     }
 
     /**
