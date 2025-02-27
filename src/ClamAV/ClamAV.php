@@ -105,8 +105,9 @@ abstract class ClamAV
 
         while (!\feof($handle)) {
             $data = \fread($handle, $chunkSize);
-            $packet = \pack(\sprintf("Na%d", $chunkSize), $chunkSize, $data);
-            \socket_send($socket, $packet, $chunkSize + 4, 0);
+            $length = pack("N", strlen($data));
+            socket_write($socket, $length, 4);
+            socket_write($socket, $data, strlen($data));
         }
 
         \socket_send($socket, \pack("Nx", 0), 5, 0);
