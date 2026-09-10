@@ -30,7 +30,7 @@ class RecordingClamAV extends ClamAV
      */
     private $socket;
 
-    public function __construct()
+    public function __construct(string $reply = "stream: OK\0")
     {
         $pair = [];
         \socket_create_pair(\AF_UNIX, \SOCK_STREAM, 0, $pair);
@@ -42,7 +42,7 @@ class RecordingClamAV extends ClamAV
             \socket_set_option($socket, \SOL_SOCKET, \SO_RCVBUF, 1048576);
         }
 
-        \socket_write($this->peer, "stream: OK\0");
+        \socket_write($this->peer, $reply);
         \socket_set_nonblock($this->peer);
     }
 

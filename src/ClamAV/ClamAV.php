@@ -95,12 +95,12 @@ abstract class ClamAV
      * Scan a file or a directory (recursively) with archive support
      * enabled (if not disabled in clamd.conf). A full path is required.
      *
-     * Returns whether the given file/directory is clean (true), or not (false).
+     * Scan a file by streaming it to ClamAV.
      *
      * @param string $file
-     * @return bool
+     * @return ScanResult
      */
-    public function fileScanInStream(string $file): bool
+    public function scanInStream(string $file): ScanResult
     {
         $handle = \fopen($file, 'rb');
 
@@ -136,10 +136,23 @@ abstract class ClamAV
             \socket_close($socket);
         }
 
-        $out = \explode(':', (string) $out);
-        $stats = \end($out);
+        return ScanResult::fromReply((string) $out);
+    }
 
-        return \trim($stats) === 'OK';
+    /**
+     * Whether the given file is clean.
+     *
+     * A scan that could not be performed is not a clean file, so this answers
+     * false for it -- the same answer it gives for a detection, which is why
+     * anything that acts on the result should call scanInStream() instead and
+     * tell the two apart.
+     *
+     * @param string $file
+     * @return bool
+     */
+    public function fileScanInStream(string $file): bool
+    {
+        return $this->scanInStream($file)->isClean();
     }
 
     /**
