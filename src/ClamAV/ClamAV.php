@@ -11,12 +11,19 @@
 
 namespace Appwrite\ClamAV;
 
+use RuntimeException;
+
 abstract class ClamAV
 {
     /**
      * @var int
      */
     public const CLAMAV_MAX = 20000;
+
+    /**
+     * @var int
+     */
+    private const INSTREAM_CHUNK = 8192;
 
     /**
      * @return resource
@@ -95,28 +102,76 @@ abstract class ClamAV
      */
     public function fileScanInStream(string $file): bool
     {
-        $socket = $this->getSocket();
-
         $handle = \fopen($file, 'rb');
-        $chunkSize = \filesize($file) < 8192 ? \filesize($file) : 8192;
-        $command = "zINSTREAM\0";
 
-        \socket_send($socket, $command, \strlen($command), 0);
-
-        while (!\feof($handle)) {
-            $data = \fread($handle, $chunkSize);
-            $packet = \pack(\sprintf("Na%d", $chunkSize), $chunkSize, $data);
-            \socket_send($socket, $packet, $chunkSize + 4, 0);
+        if ($handle === false) {
+            throw new RuntimeException('Unable to open ' . $file . ' for scanning');
         }
 
-        \socket_send($socket, \pack("Nx", 0), 5, 0);
-        \socket_recv($socket, $out, 20000, 0);
-        \socket_close($socket);
+        $socket = $this->getSocket();
 
-        $out = \explode(':', $out);
+        try {
+            $this->sendAll($socket, "zINSTREAM\0");
+
+            while (!\feof($handle)) {
+                $data = \fread($handle, self::INSTREAM_CHUNK);
+
+                if ($data === false) {
+                    throw new RuntimeException('Unable to read ' . $file . ' for scanning');
+                }
+
+                $length = \strlen($data);
+
+                if ($length === 0) {
+                    continue;
+                }
+
+                $this->sendAll($socket, \pack('N', $length) . $data);
+            }
+
+            $this->sendAll($socket, \pack('N', 0));
+            \socket_recv($socket, $out, self::CLAMAV_MAX, 0);
+        } finally {
+            \fclose($handle);
+            \socket_close($socket);
+        }
+
+        $out = \explode(':', (string) $out);
         $stats = \end($out);
 
         return \trim($stats) === 'OK';
+    }
+
+    /**
+     * Write a payload to the socket in full.
+     *
+     * socket_send() reports how many bytes it accepted and is free to accept
+     * fewer than offered. INSTREAM frames each chunk with its own length, so a
+     * dropped remainder leaves ClamAV reading file content as the next frame's
+     * length prefix -- it answers with a size error rather than a verdict, and
+     * the caller cannot tell that apart from an infected file.
+     *
+     * @param resource $socket
+     * @param string $payload
+     * @return void
+     */
+    private function sendAll($socket, string $payload): void
+    {
+        $total = \strlen($payload);
+        $sent = 0;
+
+        while ($sent < $total) {
+            $written = \socket_send($socket, \substr($payload, $sent), $total - $sent, 0);
+
+            if ($written === false) {
+                throw new RuntimeException(
+                    'ClamAV accepted ' . $sent . ' of ' . $total . ' bytes: '
+                    . \socket_strerror(\socket_last_error($socket))
+                );
+            }
+
+            $sent += $written;
+        }
     }
 
     /**
