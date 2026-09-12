@@ -36,7 +36,7 @@ $clam->shutdown(); // Shutdown ClamAV
 
 ## System Requirements
 
-This package requires PHP 7.1 or later. We recommend using the latest PHP version whenever possible.
+This package requires PHP 8.0 or later. We recommend using the latest PHP version whenever possible.
 
 ## Find Us
 
